@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+<meta charset="utf-8" />
+
+<!-- Mapa responsive adaptado a dispositivos móviles -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Cartografías ciudadanas en Hirikilabs: mapa de trabajo</title>
+
+<!-- Cargamos jquery, necesaria para que funcionen los mapas con Leaflet: http://jquery.com/ -->
+<script src="js/jquery.min.js"></script>
+
+<!-- Cargamos leaflet, una biblioteca (library) que gestiona las capas de la cartografía digital, que construye la interfaz de usuario sobre la cartografía: http://leafletjs.com/ -->
+<link rel="stylesheet" href="leaflet/leaflet.css" />
+<script src="leaflet/leaflet.js"></script>
+
+<!-- Cargamos variables de configuración y estilos locales -->
+<script src="js/mapvars.js"></script>
+<link rel="stylesheet" href="map.css" />
+
+</head>
+
+<body>
+<div id="map"></div>
+
+<script>
+// TILES: base cartográfica
+////
+// Mapbox
+var mapboxUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}';
+var mapboxAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
+var mapboxBase = L.tileLayer(mapboxUrl, {
+	attribution: mapboxAttr,
+	maxZoom: 18,
+	id: 'skotperez.nkgo660p',
+	accessToken: 'pk.eyJ1Ijoic2tvdHBlcmV6IiwiYSI6ImNpZmVjMWd1bTAwZnp1Y2tuenhncHlvNHMifQ.yHojMKQz04-JIz6N4HyjyA'
+});
+var satelliteBase = L.tileLayer(mapboxUrl, {
+	attribution: mapboxAttr,
+	maxZoom: 18,
+	id: 'skotperez.nnf00875',
+	accessToken: 'pk.eyJ1Ijoic2tvdHBlcmV6IiwiYSI6ImNpZmVjMWd1bTAwZnp1Y2tuenhncHlvNHMifQ.yHojMKQz04-JIz6N4HyjyA'
+});
+var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+var osmAttr = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+var osmBase = new L.tileLayer(osmUrl, {
+	attribution: osmAttr,
+	minZoom: 1,
+	maxZoom: 18,
+});
+
+
+// MAP layer
+var map = L.map('map', {
+	center: mapCenter,
+	zoom: mapZoom,
+	layers: [satelliteBase]
+});
+
+</script>
+</body>
+</html>
