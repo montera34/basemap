@@ -49,6 +49,16 @@ function baseMapSwitcher() {
 	L.control.layers(baseMaps).addTo(map);
 }
 
+// Define función para añadir el buscador al mapa
+function mapSearch() {
+	new L.Control.GeoSearch({
+		provider: new L.GeoSearch.Provider.OpenStreetMap(),
+		position: 'topcenter',
+		showMarker: false,
+		retainZoomLevel: false
+	}).addTo(map);
+}
+
 // Cuando la página (document) haya cargado...
 $(document).ready(function() {
 
@@ -57,5 +67,8 @@ $(document).ready(function() {
 
 	// ...añade menú de bases cartográficas
 	baseMapSwitcher();
+
+	// ...añade buscador
+	mapSearch();
 
 });
