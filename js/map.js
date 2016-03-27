@@ -71,4 +71,8 @@ $(document).ready(function() {
 	// ...añade buscador
 	mapSearch();
 
+	// ...añade trazas en formato GPX
+	omnivore.gpx('data/20160317-174533.gpx').addTo(map);
+	omnivore.gpx('data/20160317-182653.gpx').addTo(map);
+
 });
