@@ -27,7 +27,28 @@ var osmAttr = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> 
 var osmBase = new L.tileLayer(osmUrl, {
 	attribution: osmAttr,
 	minZoom: 1,
-	maxZoom: 18,
+	maxZoom: 18
+});
+// 3. Thunderforest
+var tfUrl = 'https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png';
+var tfAttr = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, Tiles <a href="http://thunderforest.com">Thunderforest</a>';
+var tfBase = new L.tileLayer(tfUrl, {
+	attribution: tfAttr,
+	maxZoom: 18
+});
+// 4. Stamen Toner
+var stmTonerUrl = 'http://tile.stamen.com/toner/{z}/{x}/{y}.png';
+var stmTonerAttr = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, Tiles <a href="http://stamen.com">Stamen</a>';
+var stmTonerBase = new L.tileLayer(stmTonerUrl, {
+	attribution: stmTonerAttr,
+	maxZoom: 18
+});
+// 4. Stamen Watercolor
+var stmWatercolorUrl = 'http://tile.stamen.com/watercolor/{z}/{x}/{y}.png';
+var stmWatercolorAttr = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, Tiles <a href="http://stamen.com">Stamen</a>';
+var stmWatercolorBase = new L.tileLayer(stmWatercolorUrl, {
+	attribution: stmTonerAttr,
+	maxZoom: 18
 });
 
 // Define función para cargar el mapa
@@ -44,7 +65,10 @@ function baseMapSwitcher() {
 	var baseMaps = {
 		"OpenStreetMap": osmBase,
 		"Mapbox": mapboxBase,
-		"Mapbox Satélite": satelliteBase
+		"Mapbox Satélite": satelliteBase,
+		"Thunderforest": tfBase,
+		"Toner": stmTonerBase,
+		"Watercolor": stmWatercolorBase,
 	};
 	L.control.layers(baseMaps).addTo(map);
 }
