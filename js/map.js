@@ -1,6 +1,6 @@
 // Define configuración inicial de la cartografía
-var mapCenter = [43.3227, -1.9835]; // lat, lon
-var mapZoom = 14; // valores entre 1-19. Según la base cartográfica puede variar el rango
+var mapCenter = [42.9653, 1.1072]; // lat, lon
+var mapZoom = 13; // valores entre 1-19. Según la base cartográfica puede variar el rango
 
 // Define contenedor para el mapa
 var map;
@@ -59,6 +59,45 @@ function mapSearch() {
 	}).addTo(map);
 }
 
+// Define función para añadir traza animada
+function trackTimeline(gpxTrack) {
+	// http://apps.socib.es/Leaflet.TimeDimension/examples/example9.html
+	
+	var timeDimension = new L.TimeDimension({
+		// Intervalo de tiempo entre puntos de la animación
+		// period: "PT15S" // 15 Segundos
+		period: "PT1M" // 1 Minuto
+		// period: "PT1H" // 1 Hora
+	});
+	map.timeDimension = timeDimension; 
+
+	var player = new L.TimeDimension.Player({
+		transitionTime: 100, 
+		loop: false,
+		startOver:true
+	}, timeDimension);
+
+	var timeDimensionControlOptions = {
+		player: player,
+		timeDimension: timeDimension,
+		position: 'bottomleft',
+		autoPlay: true,
+		minSpeed: 1,
+		speedStep: 0.5,
+		maxSpeed: 15
+	};
+
+	var timeDimensionControl = new L.Control.TimeDimension(timeDimensionControlOptions);
+	map.addControl(timeDimensionControl);
+
+	var gpxTimeLayer = L.timeDimension.layer.geoJson(gpxTrack, {
+		updateTimeDimension: true,
+		addlastPoint: true,
+		waitForReady: true
+	});
+	gpxTimeLayer.addTo(map);
+}
+
 // Cuando la página (document) haya cargado...
 $(document).ready(function() {
 
@@ -71,8 +110,15 @@ $(document).ready(function() {
 	// ...añade buscador
 	mapSearch();
 
-	// ...añade trazas en formato GPX
-	omnivore.gpx('data/20160317-174533.gpx').addTo(map);
-	omnivore.gpx('data/20160317-182653.gpx').addTo(map);
+	// ... dinamiza la URL de la página según se mueve el mapa
+	var hash = new L.Hash(map);
 
+	// ...añade trazas en formato GPX
+	var gpx1 = omnivore.gpx('data/20160317-174533.gpx');
+	var gpx2 = omnivore.gpx('data/20160317-182653.gpx');
+	var gpx3 = omnivore.gpx('data/20160316-181326.gpx');
+	var gpxCombined = omnivore.gpx('data/combined.gpx');
+
+	// ...añade traza animada y línea de tiempo
+	trackTimeline(gpxCombined);
 });
